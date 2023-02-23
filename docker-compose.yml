@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo
+    ports:
+      - 27017:27017
+    networks:
+      - common_network
+  express: 
+    container_name: express
+    build: .
+    volumes:
+      - .:/usr/src/app
+    restart: on-failure 
+    ports:
+      - 3001:3001
+    command: npm run dev
+    depends_on:
+      - mongodb
+    networks:
+      - common_network
+networks:
+  common_network:
+    name: common_network
